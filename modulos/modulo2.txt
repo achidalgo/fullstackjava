@@ -1,0 +1,109 @@
+******************************************************************
+
+           PREGUNTA 1 PRESTACION DE SERVICIO
+
+******************************************************************
+
+CREATE DATABASE PRESTACION;
+
+CREATE TABLE PRESTACION_SERVICIO(
+    IDPRESTACIONSERVICIO INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    IDSERVICIO INTEGER NOT NULL,
+    IDEMPLEADO INTEGER NOT NULL,
+    IDVEHICULO CHARACTER(6) NOT NULL,
+    FECHA DATE NOT NULL
+);
+
+CREATE TABLE SERVICIO(
+    IDSERVICIO INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    NOMBRESERVICIO CHARACTER(30) NOT NULL,
+    VALORSERVICIO DOUBLE NOT NULL
+);
+
+CREATE TABLE EMPLEADO(
+    IDEMPLEADO INTEGER NOT NULL PRIMARY KEY,
+    NOMBREEMPLEADO CHARACTER(30) NOT NULL,
+    FECHAINGRESO DATE NOT NULL
+);
+
+CREATE TABLE VEHICULO(
+    IDVEHICULO CHARACTER(6) NOT NULL PRIMARY KEY,
+    MARCAVEHICULO CHARACTER(20) NOT NULL,
+    MODELOVEHICULO CHARACTER(20) NOT NULL
+);
+
+
+******************************************************************
+PREGUNTA 1 RESPUESTA A
+******************************************************************
+
+SELECT COUNT(*) AS CANTIDAD_PRESTACIONES
+FROM prestacion_servicio 
+WHERE FECHA BETWEEN '2018-10-01' AND '2018-11-26'
+
+
+
+******************************************************************
+PREGUNTA 1 RESPUESTA B
+******************************************************************
+
+SELECT IDVEHICULO, COUNT(IDVEHICULO) AS CANTIDAD_PRESTACIONES
+FROM prestacion_servicio 
+GROUP BY IDVEHICULO
+
+
+
+******************************************************************
+PREGUNTA 1 RESPUESTA C 
+      MUESTRO LOS VEHICULOS CON MENOR PRESTACION DE 
+      SERVICIOS QUE EL PROMEDIO
+******************************************************************
+
+SELECT p.IDVEHICULO, COUNT(p.IDVEHICULO) AS CANTIDAD_PRESTACIONES
+FROM prestacion_servicio AS p
+GROUP BY p.IDVEHICULO
+HAVING CANTIDAD_PRESTACIONES <(SELECT AVG(CANT) 
+                              FROM (
+                                  SELECT COUNT(IDVEHICULO) AS CANT  
+                                  FROM prestacion_servicio 
+                                  GROUP BY IDVEHICULO) AS A
+                             );
+
+
+                           
+******************************************************************
+
+                    PREGUNTA 2
+
+******************************************************************
+
+CREATE TABLE EMPLEADO(
+    IDEMPLEADO INTEGER NOT NULL PRIMARY KEY,
+    NOMBRE CHARACTER(15) NOT NULL,
+    APELLIDO CHARACTER(15) NOT NULL,
+    DIRECCION CHARACTER(50) NOT NULL,
+    TELEFONO INTEGER NOT NULL,
+    IDDEPARTAMENTO INTEGER NOT NULL
+);
+
+
+******************************************************************
+
+                    PREGUNTA 3
+
+******************************************************************
+
+CREATE TABLE CINE(
+        ID_NOMBRECINE CHARACTER(15) NOT NULL PRIMARY KEY,
+	DIRECCION CHARACTER(50) NOT NULL,
+	TELEFONO INTEGER NOT NULL
+);
+
+CREATE TABLE SALA(
+	ID_SALA INTEGER NOT NULL,
+	ID_NOMBRECINE CHARACTER(15) NOT NULL,
+	BUTACA INTEGER NOT NULL,
+	NOMBRESALA CHARACTER(15),
+	PRIMARY KEY (ID_SALA, ID_NOMBRECINE)
+);
+
